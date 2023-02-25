@@ -7,14 +7,22 @@
 
 import UIKit
 
+struct DataCity{
+    let name: String
+    let lat: Double
+    let lon: Double
+}
+
 class AllCityesController: UITableViewController {
     
-   var cityes = [
-            "Moscow",
-            "Krasnoyarsk",
-            "London",
-            "Paris"
+    var cityes: [DataCity] = {
+        [
+            .init(name: "Bangkok", lat: 13.75, lon: 100.50),
+            .init(name: "Berlin", lat: 52.52, lon: 13.41),
+            .init(name: "Moscow", lat: 55.75, lon: 37.62),
+            .init(name: "Tokyo", lat: 35.69, lon: 139.69)
         ]
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +48,7 @@ class AllCityesController: UITableViewController {
         let city = cityes[indexPath.row]
             
         // устанавливаем город в надпись ячейки
-        cell.CityName.text = city
+        cell.CityName.text = city.name
 
         return cell
     }

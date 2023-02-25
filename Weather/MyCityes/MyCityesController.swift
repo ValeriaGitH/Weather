@@ -54,9 +54,9 @@ class MyCityesController: UITableViewController {
                 // получаем город по индексу
                 let city = allCityesController.cityes[indexPath.row]
                 // Проверяем что такого города нет в списке
-                if !cityes.contains(city) {
+                if !cityes.contains(city.name) {
                     // добавляем город в список выбранных городов
-                    cityes.append(city)
+                    cityes.append(city.name)
                     // обновляем таблицу
                     tableView.reloadData()
                 }
@@ -71,6 +71,20 @@ class MyCityesController: UITableViewController {
             cityes.remove(at: indexPath.row)
             // и удаляем строку из таблицы
             tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "Segue" {
+            
+            let nextScene =  segue.destination as! WeatherViewController
+
+            // Pass the selected object to the new view controller.
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                let selectedVehicle = cityes[indexPath.row]
+                nextScene.name = selectedVehicle
+            }
         }
     }
 }
