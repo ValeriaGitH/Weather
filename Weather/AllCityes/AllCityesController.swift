@@ -15,7 +15,7 @@ struct DataCity{
 
 class AllCityesController: UITableViewController {
     
-    var cityes: [DataCity] = {
+    static let cityes: [DataCity] = {
         [
             .init(name: "Bangkok", lat: 13.75, lon: 100.50),
             .init(name: "Berlin", lat: 52.52, lon: 13.41),
@@ -37,7 +37,7 @@ class AllCityesController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cityes.count
+        return AllCityesController.cityes.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
@@ -45,7 +45,7 @@ class AllCityesController: UITableViewController {
         // получаем ячейку из пула
         let cell = tableView.dequeueReusableCell(withIdentifier: "CityCell", for: indexPath) as! AllCityesCell
         // получаем город для конкретной строки
-        let city = cityes[indexPath.row]
+        let city = AllCityesController.cityes[indexPath.row]
             
         // устанавливаем город в надпись ячейки
         cell.CityName.text = city.name

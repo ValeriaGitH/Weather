@@ -9,19 +9,27 @@ import UIKit
 
 class WeatherViewController: UICollectionViewController {
     
-    var name: String? = nil
+    var indexCity: Int? = nil
     
     private var temperatureData: [Double] = []
+    private var temperatureDataTime: [String] = []
     
     override func viewDidLoad() {
-        title = name
         
         super.viewDidLoad()
         
-        ApiManager.shared.Get{ [weak self] values in
+        guard let index = indexCity else {return}
+        
+        title = AllCityesController.cityes[index].name
+        
+        let lat: Double = AllCityesController.cityes[index].lat
+        let lon: Double = AllCityesController.cityes[index].lon
+        
+        ApiManager.shared.GetWeather(lat:lat, lon: lon) { [weak self] values, times in
             DispatchQueue.main.async {
                 guard let self else { return }
                 self.temperatureData = values
+                self.temperatureDataTime = times
                 self.collectionView.reloadData()
             }
         }
@@ -39,7 +47,7 @@ class WeatherViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCell", for: indexPath) as! WeatherCell
         
         cell.weather.text = "\(temperatureData[indexPath.item])"
-        cell.time.text = "30.08.2017 18:00"
+        cell.time.text = temperatureDataTime[indexPath.item]
         
         return cell
     }

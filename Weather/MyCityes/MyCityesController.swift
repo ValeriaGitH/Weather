@@ -9,7 +9,7 @@ import UIKit
 
 class MyCityesController: UITableViewController {
     
-    var cityes = [String]()
+    var indexCity = [Int]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,7 @@ class MyCityesController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cityes.count
+        return indexCity.count
     }
     
     
@@ -35,10 +35,9 @@ class MyCityesController: UITableViewController {
         // получаем ячейку из пула
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyCityesCell", for: indexPath) as! MyCityesCell
         // получаем город для конкретной строки
-        let city = cityes[indexPath.row]
-        
+        let iCity = indexCity[indexPath.row]
         // устанавливаем город в надпись ячейки
-        cell.CityName.text = city
+        cell.CityName.text = AllCityesController.cityes[iCity].name
         
         return cell
     }
@@ -51,12 +50,11 @@ class MyCityesController: UITableViewController {
             
             // получаем индекс выделенной ячейки
             if let indexPath = allCityesController.tableView.indexPathForSelectedRow {
-                // получаем город по индексу
-                let city = allCityesController.cityes[indexPath.row]
+                let index = indexPath.row
                 // Проверяем что такого города нет в списке
-                if !cityes.contains(city.name) {
+                if !indexCity.contains(index) {
                     // добавляем город в список выбранных городов
-                    cityes.append(city.name)
+                    indexCity.append(index)
                     // обновляем таблицу
                     tableView.reloadData()
                 }
@@ -68,7 +66,7 @@ class MyCityesController: UITableViewController {
         // если была нажата кнопка удалить
         if editingStyle == .delete {
         // мы удаляем город из массива
-            cityes.remove(at: indexPath.row)
+            indexCity.remove(at: indexPath.row)
             // и удаляем строку из таблицы
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
@@ -82,8 +80,8 @@ class MyCityesController: UITableViewController {
 
             // Pass the selected object to the new view controller.
             if let indexPath = self.tableView.indexPathForSelectedRow {
-                let selectedVehicle = cityes[indexPath.row]
-                nextScene.name = selectedVehicle
+                let selectedVehicle = indexCity[indexPath.row]
+                nextScene.indexCity = selectedVehicle
             }
         }
     }
