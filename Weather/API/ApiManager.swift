@@ -12,13 +12,13 @@ class ApiManager{
     static let shared = ApiManager()
     
     func getUrlString(lat: Double, lon: Double) -> String {
-        return "https://api.open-meteo.com/v1/forecast?latitude=\(lat)&longitude=\(lon)&current_weather=true&hourly=temperature_2m,relativehumidity_2m,windspeed_10m"
+        return "https://api.open-meteo.com/v1/forecast?latitude=\(lat)&longitude=\(lon)&current_weather=true&hourly=temperature_2m,weathercode"
     }
     
     /*let urlString = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current_weather=true&hourly=temperature_2m,relativehumidity_2m,windspeed_10m"
     */
     
-    func GetWeather(lat: Double, lon: Double, completion: @escaping ([Double],[String]) -> Void) {
+    func GetWeather(lat: Double, lon: Double, completion: @escaping ([Double],[String],[Int]) -> Void) {
         guard let url = URL(string: getUrlString(lat: lat, lon: lon)) else {return}
         let request = URLRequest(url: url)
         
@@ -28,7 +28,7 @@ class ApiManager{
             //парсинг
             if let weatherData = try? JSONDecoder().decode(WeatherData.self, from: data){
                 
-                completion(weatherData.hourly.temperature2M, weatherData.hourly.time)
+                completion(weatherData.hourly.temperature2M, weatherData.hourly.time, weatherData.hourly.weathercode)
             }
             
         }

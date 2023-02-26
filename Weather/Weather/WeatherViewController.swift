@@ -13,6 +13,7 @@ class WeatherViewController: UICollectionViewController {
     
     private var temperatureData: [Double] = []
     private var temperatureDataTime: [String] = []
+    private var temperatureCode: [Int] = []
     
     override func viewDidLoad() {
         
@@ -25,11 +26,12 @@ class WeatherViewController: UICollectionViewController {
         let lat: Double = AllCityesController.cityes[index].lat
         let lon: Double = AllCityesController.cityes[index].lon
         
-        ApiManager.shared.GetWeather(lat:lat, lon: lon) { [weak self] values, times in
+        ApiManager.shared.GetWeather(lat:lat, lon: lon) { [weak self] values, times, code in
             DispatchQueue.main.async {
                 guard let self else { return }
                 self.temperatureData = values
                 self.temperatureDataTime = times
+                self.temperatureCode = code
                 self.collectionView.reloadData()
             }
         }
@@ -48,6 +50,7 @@ class WeatherViewController: UICollectionViewController {
         
         cell.weather.text = "\(temperatureData[indexPath.item])"
         cell.time.text = temperatureDataTime[indexPath.item]
+        cell.icon.image = UIImage(named: "code_\(temperatureCode[indexPath.item]).png")
         
         return cell
     }
