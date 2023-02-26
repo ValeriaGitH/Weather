@@ -18,7 +18,7 @@ class WeatherViewController: UICollectionViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+                
         guard let index = indexCity else {return}
         
         title = AllCityesController.cityes[index].name
@@ -48,7 +48,7 @@ class WeatherViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCell", for: indexPath) as! WeatherCell
         
-        cell.weather.text = "\(temperatureData[indexPath.item])"
+        cell.weather.text = "\(Int(temperatureData[indexPath.item]))°C"
         cell.time.text = temperatureDataTime[indexPath.item]
         cell.icon.image = UIImage(named: "code_\(temperatureCode[indexPath.item]).png")
         
